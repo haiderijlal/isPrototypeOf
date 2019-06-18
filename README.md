@@ -1,7 +1,7 @@
 
 # isPrototypeOf().
 
-This function is the recreation of the Object.prototype.isPrototypeOf()  
+This function is recreation of the Object.prototype.isPrototypeOf()  
 present is Javascript using Test Driven Development.
 
 
