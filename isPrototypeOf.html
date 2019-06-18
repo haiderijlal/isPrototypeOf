@@ -1,0 +1,86 @@
+<script src="SimpleTest.js"></script>
+<script src="isPrototypeOf.js"></script>
+
+
+<!-- function signature
+isPrototypeOf(parentobject, childObject)  
+-->
+<script>
+    // Test code. 
+    // Used in test cases
+    var canine = {
+            bark: function() {
+            console.log('bark');
+            }
+        };
+
+    var dog = Object.create(canine);
+
+    dog.fetch = function() {
+        console.log('fetch');
+    };
+
+    var myDog = Object.create(dog);
+    var empty = Object.create(null);
+
+    // End of test code.
+</script>
+
+<script>
+    tests({
+    'It should throw type error if "parentObject" is not an object': function() {
+        try {
+            isPrototypeOf("", Object.prototype)
+        } catch (error) {
+            isTypeError = (error instanceof TypeError);
+        }
+        eq(isTypeError, true)
+    },
+
+    'It should throw type error if "childObject" is not an object': function() {
+        try {
+            isPrototypeOf( Object.prototype, "")
+        } catch (error) {
+            isTypeError = (error instanceof TypeError);
+        }
+        eq(isTypeError, true)
+    },
+    
+    'It should throw type error if either of the arguments is null': function() {
+        try {
+            isPrototypeOf( Object.prototype, null)
+        } catch (error) {
+            isTypeError = (error instanceof TypeError);
+        }
+        eq(isTypeError, true)
+
+        try {
+            isPrototypeOf(null, Object.prototype)
+        } catch (error) {
+            isTypeError = (error instanceof TypeError);
+        }
+        eq(isTypeError, true)
+    },
+
+    'It should return false if "parentObject" is not a prototype of "childObject"': function() {
+        var isParentPrototypeOfChild = isPrototypeOf(dog, empty);
+        eq(isParentPrototypeOfChild, false) 
+    },
+    
+    'It should return true if "parentObject" is a prototype of "childObject"': function() {
+        var isParentPrototypeOfChild = isPrototypeOf(dog, myDog);
+        eq(isParentPrototypeOfChild, true)
+    },
+    
+    'It should be able to handle nested prototype links': function() {
+        var isParentPrototypeOfChild = isPrototypeOf(canine, myDog)
+        eq(isParentPrototypeOfChild, true)
+    },
+
+    'It should work for the Object.prototype too.': function() {
+        var isParentPrototypeOfChild = isPrototypeOf(Object.prototype, myDog);
+        eq(isParentPrototypeOfChild, true)
+    }
+    
+});
+</script>
